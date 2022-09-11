@@ -5,17 +5,13 @@ import { galleryItems } from './gallery-items';
 console.log(galleryItems);
 // Change code below this line
 
-console.log(galleryItems);
-
 // Описаний в документації
-import simpleLightbox from 'simplelightbox';
+import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector('.gallery');
 const newGalleryItem = createGalleryItems(galleryItems);
-
-gallery.insertAdjacentHTML('beforeend', newGalleryItem);
 
 // console.log(createGalleryItems(galleryItems));
 
@@ -23,7 +19,7 @@ function createGalleryItems(galleryItems) {
   return galleryItems
     .map(({ preview, original, description }) => {
       return `<div class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
+  <a class="gallery__link" href="${original}">
     <img
       class="gallery__image"
       src="${preview}"
@@ -36,21 +32,12 @@ function createGalleryItems(galleryItems) {
     .join('');
 }
 
-gallery.addEventListener('click', e => {
-  e.preventDefault();
-  if (e.target.nodeName !== 'IMG') {
-    return;
-  }
-  const selectedImage = e.target.getAttribute('data-source');
+gallery.insertAdjacentHTML('beforeend', newGalleryItem);
 
-  const instance = simpleLightbox.create(`
-    <img src="${selectedImage}" width="800" height="600">
-`);
-
-  instance.show();
-  gallery.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      instance.close();
-    }
-  });
+let newGallery = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
 });
+
+console.log(newGallery);
